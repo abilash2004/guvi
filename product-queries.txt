@@ -1,0 +1,35 @@
+Find all the information about each products
+Ans: db.product.find().toArray()
+
+Find the product price which are between 400 to 800
+Ans: db.product.find({$and:[{product_price:{$gte:400}},{product_price:{$lte:800}}]}).toArray()
+
+Find the product price which are not between 400 to 600
+Ans: db.product.find({product_price:{$not:{$gte:400,$lte:600}}}).toArray()
+
+List the four product which are grater than 500 in price 
+Ans : db.product.find({product_price:{$gte:400}}).limit(4).toArray()
+
+Find the product name and product material of each products
+Ans : db.product.find({}, { "product_name": 1 , "product_material":1}).toArray()
+
+Find the product with a row id of 10
+Ans : db.product.find({ "id": "10" }).toArray()
+
+Find only the product name and product material
+Ans : db.product.find({}, { "product_name": 1 , "product_material":1,"_id":0}).toArray()
+
+Find all products which contain the value of soft in product material 
+Ans : db.product.find({ "product_material": { $regex: /^Soft/i } })toArray()
+
+Find products which contain product color indigo  and product price 492.00
+Ans : db.product.findOne({"product_color": "indigo"}).toArray()
+
+Delete the products which product price value are same
+Ans : db.product.deleteMany({ 
+  price: { 
+    $in: db.product.aggregate([
+      { $group: { _id: "$price", count: { $sum: 1 } } },
+      { $match: { count: { $gt: 1 } } }
+    ]).toArray().map(doc => doc._id)}})
+
