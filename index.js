@@ -148,7 +148,7 @@ app.get('/customerbookings', (req, res) => {
 });
 
 // List all Rooms
-app.get('/halls', (req, res) => {
+app.get('/', (req, res) => {
   res.send(halls);
 });
 
